@@ -63,7 +63,7 @@
         curentPicObject.canvas = document.getElementById("canvas-" + i);
         curentPicObject.pic = new Image();
         curentPicObject.pic.name = i;
-        curentPicObject.pic.src = "http://mydev.com/selenium/snapshotTests/screenshots/scr" + i + ".png";
+        curentPicObject.pic.src = "screenshots/scr" + i + ".png";
         curentPicObject.pic.onload = function(e) {
             var pic = e.target;
             var id = parseInt(pic.name);
@@ -77,20 +77,20 @@
            if(picObject.diffs.length > 0) {
     
                 function drawPointer(x, y) {
-                    var x2 = x;
+                    var x2 = x - 10;
                     var y2 = y;
     
-                    var x1 = x2 + 100;
-                    var y1 = y2 + 100;
+                    var x1 = x2 - 50;
+                    var y1 = y2 - 50;
     
                     drawArow(canvasContext, 
                                x1,          // x1
                                y1,          // y1
                                x2,         // x2
                                y2,         // y2 
-                               4,           // lineWidth 
-                               25,           // arrowDiamer 
-                               8,           // arowAngle 
+                               3,           // lineWidth 
+                               15,           // arrowDiamer 
+                               10,           // arowAngle 
                                '#FF0000',   // color 
                                '#FF0000',   // fillColor
                     );   

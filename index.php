@@ -33,6 +33,7 @@ function markDifference($src, $scrTwo) {
     $startDrawing = 0;
     $width  = $size[0];
     $height = $size[1];
+    $diffsCount = 0;
 
     $diffs = array();
 
@@ -47,9 +48,15 @@ function markDifference($src, $scrTwo) {
             $b = $rgb & 0xFF;            
 
             if($rgb != $rgbTwo && $startDrawing == 0) {
-                $startDrawing ++;
-                $startDrawing = $startDrawing > 10 ? 0 : $startDrawing;
-                array_push($diffs, $x, $y);
+                if($diffsCount < 10 ) {
+                    $diffsCount ++;
+                }
+                else {
+                    $startDrawing ++;
+                    $startDrawing = $startDrawing > 10 ? 0 : $startDrawing;
+                    array_push($diffs, $x, $y);
+                    $diffsCount = 0;
+                }
             }
         }
     }
