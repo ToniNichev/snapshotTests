@@ -1,0 +1,31 @@
+.match {
+  background: green;
+}
+
+.no-match {
+  background: red;
+}
+
+.picWrapper {
+  text-align: center;
+  border-bottom: 1px solid silver
+}
+
+.picWrapper canvas {
+  width: 80%;
+}
+
+/* control panel */
+
+#controlPanel {
+  background: silver
+}
+
+.picWrapper input {
+  width: 100%;
+  text-align: center;  
+}
+
+.controlPanelPiece {
+  display: inline-block;
+}
