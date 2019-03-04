@@ -8,7 +8,12 @@
 
 .picWrapper {
   text-align: center;
-  border-bottom: 1px solid silver
+  border-bottom: 1px solid silver;
+  display: inline-block;
+}
+
+.picWrapper div input {
+  width: 78.3%;
 }
 
 .picWrapper canvas {
@@ -17,8 +22,22 @@
 
 /* control panel */
 
+.controlPanelPiece {
+  width: 49%;
+}
+
+#controlPalenInner > div.controlPanelPiece.buttons > button {
+  height: 100%;
+}
+
 #controlPanel {
-  background: silver
+  background: white;
+  text-align: center;
+}
+
+#controlPanel .buttons {
+height: 150px;
+float: left;
 }
 
 .picWrapper input {

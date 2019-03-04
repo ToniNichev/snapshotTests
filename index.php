@@ -43,20 +43,26 @@ function markDifference($src, $scrTwo) {
         {
             $rgb = imagecolorat($im, $x, $y);
             $rgbTwo = imagecolorat($imTwo, $x, $y);
+            /*
             $r = ($rgb >> 16) & 0xFF;
             $g = ($rgb >> 8) & 0xFF;
-            $b = $rgb & 0xFF;            
+            $b = $rgb & 0xFF;         
+            */
 
             if($rgb != $rgbTwo && $startDrawing == 0) {
                 if($diffsCount < 10 ) {
                     $diffsCount ++;
                 }
                 else {
+                    // the difference is > than 10 pixels
                     $startDrawing ++;
                     $startDrawing = $startDrawing > 10 ? 0 : $startDrawing;
                     array_push($diffs, $x, $y);
                     $diffsCount = 0;
                 }
+            }
+            else {
+                $diffsCount = 0;
             }
         }
     }
@@ -76,8 +82,8 @@ function takeScreenshot($driver, $url, $id) {
     $driver->takeScreenshot(__DIR__ . "/screenshots/scr" . $id . "-tmp.png");
 }
 
-$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/', 'https://www.toni-develops.com/webpack/', 'https://www.toni-develops.com/algorithms/');
-//$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/');
+//$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/', 'https://www.toni-develops.com/webpack/', 'https://www.toni-develops.com/algorithms/');
+$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/');
 
 $html = '';
 $results = array();
@@ -90,13 +96,18 @@ for($i = 0; $i < count($urls); $i++) {
     $diff = array();
     $a = sha1_file(__DIR__ . "/screenshots/scr" . $i . "-tmp.png");
     $b = file_exists(__DIR__ . "/screenshots/scr" . $i . ".png") ? sha1_file(__DIR__ . "/screenshots/scr" . $i . ".png") : null;
+    $className = 'match';
     if($a == $b || $b == null) {
-        $className = 'match';
         $match ++;
     }else {
-        $className = 'no-match';
-        $noMatch ++;
         $diff = markDifference(__DIR__ . "/screenshots/scr" . $i . "-tmp.png", __DIR__ . "/screenshots/scr" . $i . ".png");
+        if(count($diff) > 0) {
+            $className = 'no-match';
+            $noMatch ++;
+        }
+        else {
+           $match ++;
+        }
     }
 
     $picObj = new picClass();
@@ -106,8 +117,9 @@ for($i = 0; $i < count($urls); $i++) {
     array_push($picInfo, $picObj);
 
     array_push($results, '"'.$className . '"');
+    rename(__DIR__ . "/screenshots/scr" . $i . ".png", __DIR__ . "/screenshots/scr" . $i . "-old.png");
     rename(__DIR__ . "/screenshots/scr" . $i . "-tmp.png", __DIR__ . "/screenshots/scr" . $i . ".png");
-    $html .= '<div class="picWrapper ' .$className . '"><div><input type="test" value="' . $urls[$i] . '" readonly /></div><canvas width="1280" height="677" id="canvas-' . $i . '"/></div>';
+    $html .= '<div class="picWrapper ' .$className . '"><div><input type="test" value="' . $urls[$i] . '" readonly /><button onclick="popitup(' . $i . ')">O</button></div><canvas width="1280" height="677" id="canvas-' . $i . '"/></div>';
 }
 
 $resultsArray = implode(',', $results); 
@@ -125,10 +137,6 @@ $driver->quit();
     var match = <?php echo $match ?>;
     var noMatch = <?php echo $noMatch ?>;
 
-    <?php
-        //print_r($picInfo);
-        //die("!");
-    ?>
 
     var picInfo = [
         <?php
@@ -147,18 +155,21 @@ $driver->quit();
 </head>
 <body>
     <div id="controlPanel">
-        <div class="controlPanelPiece">
-            <button>RUN</button>
-        </div>
-        <div class="controlPanelPiece">
-            <div id="piechart_3d" style="width: 400px; height: 200px;"></div>
+        <div id="controlPalenInner">
+            <div class="controlPanelPiece buttons">
+                <button>RUN</button>
+            </div>
+            <div class="controlPanelPiece">
+                <div id="piechart_3d" style="width: 400px; height: 150px;"></div>
+            </div>
         </div>
     </div>
     <?php
         echo $html;
     ?>
 <script type="text/javascript" src="charts.js"></script>       
-<script type="text/javascript" src="arrows.js"></script>        
+<script type="text/javascript" src="arrows.js"></script>   
+<script type="text/javascript" src="main.js"></script>        
 </body>
 </html>
 
