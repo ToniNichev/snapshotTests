@@ -54,54 +54,56 @@
         ctx.stroke();
 	}
 
-    for(var i in picInfo) {
-        var picData = picInfo[i];
-        if(typeof picData.url == 'undefined')
-            break;
-        var curentPicObject = picInfo[i];
-        // draw the image
-        curentPicObject.canvas = document.getElementById("canvas-" + i);
-        curentPicObject.pic = new Image();
-        curentPicObject.pic.name = i;
-        curentPicObject.pic.src = "screenshots/scr" + i + ".png";
-        curentPicObject.pic.onload = function(e) {
-            var pic = e.target;
-            var id = parseInt(pic.name);
-            var picObject = picInfo[id];
-            var canvas = picInfo[id].canvas;
-            var canvasContext = canvas.getContext("2d");
-    
-    
-           canvasContext.drawImage(pic,0,0);
-           // draw markers   
-           if(picObject.diffs.length > 0) {
-    
-                function drawPointer(x, y) {
-                    var x2 = x - 10;
-                    var y2 = y;
-    
-                    var x1 = x2 - 50;
-                    var y1 = y2 - 50;
-    
-                    drawArow(canvasContext, 
-                               x1,          // x1
-                               y1,          // y1
-                               x2,         // x2
-                               y2,         // y2 
-                               3,           // lineWidth 
-                               15,           // arrowDiamer 
-                               10,           // arowAngle 
-                               '#FF0000',   // color 
-                               '#FF0000',   // fillColor
-                    );   
-    
-                }
-    
-                for(var c=0; c < picObject.diffs.length; c = c + 2 ) {
-                    var x = picObject.diffs[c];
-                    var y = picObject.diffs[c + 1];
-                    drawPointer(x, y);    
-                }            
-           }
-        };
-    }
+
+
+for(var i in picInfo) {
+  var picData = picInfo[i];
+  if(typeof picData.url == 'undefined')
+      break;
+  var curentPicObject = picInfo[i];
+  // draw the image
+  curentPicObject.canvas = document.getElementById("canvas-" + i);
+  curentPicObject.pic = new Image();
+  curentPicObject.pic.name = i;
+  curentPicObject.pic.src = "screenshots/scr" + i + ".png";
+  curentPicObject.pic.onload = function(e) {
+      var pic = e.target;
+      var id = parseInt(pic.name);
+      var picObject = picInfo[id];
+      var canvas = picInfo[id].canvas;
+      var canvasContext = canvas.getContext("2d");
+
+
+      canvasContext.drawImage(pic,0,0);
+      // draw markers   
+      if(picObject.diffs.length > 0) {
+
+          function drawPointer(x, y) {
+              var x2 = x - 10;
+              var y2 = y;
+
+              var x1 = x2 - 50;
+              var y1 = y2 - 50;
+
+              drawArow(canvasContext, 
+                          x1,          // x1
+                          y1,          // y1
+                          x2,         // x2
+                          y2,         // y2 
+                          3,           // lineWidth 
+                          15,           // arrowDiamer 
+                          10,           // arowAngle 
+                          '#FF0000',   // color 
+                          '#FF0000',   // fillColor
+              );   
+
+          }
+
+          for(var c=0; c < picObject.diffs.length; c = c + 2 ) {
+              var x = picObject.diffs[c];
+              var y = picObject.diffs[c + 1];
+              drawPointer(x, y);    
+          }            
+      }
+  };
+}

@@ -1,5 +1,4 @@
 <?php
-
  
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
@@ -26,7 +25,7 @@ $driver->manage()->window()->setPosition(new WebDriverPoint(0,0));
 $driver->manage()->window()->setSize(new WebDriverDimension(1280,800));
 
 
-function markDifference($src, $scrTwo) {
+function markDifference($src, $scrTwo, $id) {
     $im     = imagecreatefrompng($src);
     $imTwo     = imagecreatefrompng($scrTwo);
     $size   = getimagesize($src);
@@ -36,6 +35,8 @@ function markDifference($src, $scrTwo) {
     $diffsCount = 0;
 
     $diffs = array();
+
+    file_put_contents($id . ".txt", "Difference detected", FILE_APPEND);
 
     for($x=0;$x<$width;$x++)
     {
@@ -50,19 +51,13 @@ function markDifference($src, $scrTwo) {
             */
 
             if($rgb != $rgbTwo && $startDrawing == 0) {
-                if($diffsCount < 10 ) {
-                    $diffsCount ++;
-                }
-                else {
-                    // the difference is > than 10 pixels
-                    $startDrawing ++;
-                    $startDrawing = $startDrawing > 10 ? 0 : $startDrawing;
-                    array_push($diffs, $x, $y);
-                    $diffsCount = 0;
-                }
+              //if($startDrawing == 0)
+              array_push($diffs, $x, $y);
+              file_put_contents($id . ".txt",  "\n" .$x . " " . $y, FILE_APPEND);
+              $startDrawing = 1;
+              break;
             }
             else {
-                $diffsCount = 0;
             }
         }
     }
@@ -84,6 +79,9 @@ function takeScreenshot($driver, $url, $id) {
 
 //$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/', 'https://www.toni-develops.com/webpack/', 'https://www.toni-develops.com/algorithms/');
 $urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/');
+//$urls = array('http://mydev.com/selenium/test-pages/one.html', 'http://mydev.com/selenium/test-pages/two.html');
+
+$urls = array('http://mydev.com/selenium/test-pages/one.html');
 
 $html = '';
 $results = array();
@@ -100,7 +98,7 @@ for($i = 0; $i < count($urls); $i++) {
     if($a == $b || $b == null) {
         $match ++;
     }else {
-        $diff = markDifference(__DIR__ . "/screenshots/scr" . $i . "-tmp.png", __DIR__ . "/screenshots/scr" . $i . ".png");
+        $diff = markDifference(__DIR__ . "/screenshots/scr" . $i . "-tmp.png", __DIR__ . "/screenshots/scr" . $i . ".png", $i);
         if(count($diff) > 0) {
             $className = 'no-match';
             $noMatch ++;
