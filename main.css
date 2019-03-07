@@ -48,3 +48,8 @@ float: left;
 .controlPanelPiece {
   display: inline-block;
 }
+
+#controlPalenInner > div.controlPanelPiece.buttons > button {
+  border-radius: 10px;
+  width: 100px;
+}

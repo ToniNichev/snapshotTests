@@ -50,9 +50,10 @@
 		}
 
 		ctx.beginPath();
-        ctx.arc(x1, y1, 4, 0, 2 * Math.PI)
+        ctx.arc(x1, y1, 4, 0, 2 * Math.PI);
         ctx.stroke();
-	}
+    }
+    
 
     for(var i in picInfo) {
         var picData = picInfo[i];
@@ -77,11 +78,16 @@
            if(picObject.diffs.length > 0) {
     
                 function drawPointer(x, y) {
-                    var x2 = x - 10;
-                    var y2 = y;
-    
-                    var x1 = x2 - 50;
-                    var y1 = y2 - 50;
+                    var width = canvas.width;
+                    var offsetX = (picInfo[0].diffs[0] < width / 2) ? 15 : -15;
+                    
+                    var x2 = picInfo[0].diffs[0] + offsetX;
+                    var y2 = picInfo[0].diffs[1];
+                    
+                    var arrowLength = 80;
+                    
+                    var x1 =  x2 < width / 2 ? x2 + arrowLength : x2 - arrowLength;
+                    var y1 = y2 + 10;
     
                     drawArow(canvasContext, 
                                x1,          // x1
@@ -100,7 +106,7 @@
                 for(var c=0; c < picObject.diffs.length; c = c + 2 ) {
                     var x = picObject.diffs[c];
                     var y = picObject.diffs[c + 1];
-                    drawPointer(x, y);    
+                    //drawPointer(x, y);    
                 }            
            }
         };

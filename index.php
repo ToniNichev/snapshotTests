@@ -83,8 +83,8 @@ function takeScreenshot($driver, $url, $id) {
 }
 
 //$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/', 'https://www.toni-develops.com/webpack/', 'https://www.toni-develops.com/algorithms/');
-$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/');
-
+//$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/');
+$urls = array('http://mydev.com/selenium/test-pages/one.html');
 $html = '';
 $results = array();
 $match = 0;
@@ -157,7 +157,7 @@ $driver->quit();
     <div id="controlPanel">
         <div id="controlPalenInner">
             <div class="controlPanelPiece buttons">
-                <button>RUN</button>
+                <button onclick="reloadWin()"><img src="tray-icon.png" /></button>
             </div>
             <div class="controlPanelPiece">
                 <div id="piechart_3d" style="width: 400px; height: 150px;"></div>
