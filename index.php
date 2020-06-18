@@ -77,11 +77,7 @@ function takeScreenshot($driver, $url, $id) {
     $driver->takeScreenshot(__DIR__ . "/screenshots/scr" . $id . "-tmp.png");
 }
 
-//$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/', 'https://www.toni-develops.com/webpack/', 'https://www.toni-develops.com/algorithms/');
-$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/');
-//$urls = array('http://mydev.com/selenium/test-pages/one.html', 'http://mydev.com/selenium/test-pages/two.html');
-
-$urls = array('http://mydev.com/selenium/test-pages/one.html');
+$urls = array('https://www.toni-develops.com/', 'https://www.toni-develops.com/2017/04/27/git-bash-cheatsheet/', 'https://www.toni-develops.com/webpack/', 'https://www.toni-develops.com/algorithms/');
 
 $html = '';
 $results = array();
